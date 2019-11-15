@@ -29,8 +29,10 @@ class App extends Component {
             {name: 'Max', age: 28},
             {name:'Eliseo', age: 43},
             {name:'Manu', age: 26}
-        ]
-    }
+        ],
+         otherstate: "some other value",
+         showPersons: false
+    };
     //Creating a class method in the component we simply use = just like we do for any
     //property in the class. its a property with a function within, next when we call this
     //method we must use "this" to maintain the proper "this" in the component and no cause
@@ -44,8 +46,10 @@ class App extends Component {
             {name: newname, age: 28},
             {name:'Eliseo Rodriguez', age: 43},
             {name:'Manu', age: 28}
-        ]})
-    }
+        ]
+
+        })
+    };
 
     nameChangedHandler = (event) => {
         this.setState({
@@ -60,8 +64,16 @@ class App extends Component {
                 {name: "Stephanie", age: 27}
             ]
         })
-    }
-
+    };
+    //When we make a function in a class based component its better to use an anonymous function in
+    //the class with the below method because this method will keep the "this" keyword from getting
+    // confused an to what it applies to.
+    togglePersonsHandler = ()=> {
+    //We are going to toggle all the person items to show on click or remove on click so we need to
+    //    toggle something for this to occur.
+        const doesShow = this.state.showPersons;
+        this.setState({showPersons: !doesShow})
+    };
 
   render() {
         const style = {
@@ -75,13 +87,17 @@ class App extends Component {
     //       or a self closing tag. see <Person/> or <Person><Person>
     //DEALING WITH CONTENT THAT IS IN BETWEEN THE OPENING AND CLOSING TAGS.
 
-    //
+    //We will be toggeling the
     return (
       <div className="App">
        <h1>Hi, I am a React App</h1>
         <p>This is really working!</p>
-          <button style={style} onClick={() => this.switchNameHandler("Max a Million")}>Switch Name</button>
-         <Person
+          <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
+
+          {
+              this.state.showPersons === true ?
+              <div>
+                <Person
              name = {this.state.persons[0].name}
              age={this.state.persons[0].age}/>
         <Person
@@ -93,6 +109,9 @@ class App extends Component {
          <Person
              name={this.state.persons[2].name}
              age={this.state.persons[2].age}/>
+          </div> : null
+          }
+
       </div>
 
     );
