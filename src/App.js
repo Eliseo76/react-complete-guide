@@ -37,19 +37,7 @@ class App extends Component {
     //property in the class. its a property with a function within, next when we call this
     //method we must use "this" to maintain the proper "this" in the component and no cause
     //confusion of the "this" keyword in the component.
-    switchNameHandler = (newname) => {
-        // console.log('Was Clicked')
-    //    changing state with an onClick event
-    //    DONT DO THIS TO CHANGE THE STATE SEE BELOW.
-    //     this.state.persons[0].name = "Eliseo Rodriguez"
-        this.setState({persons:[
-            {name: newname, age: 28},
-            {name:'Eliseo Rodriguez', age: 43},
-            {name:'Manu', age: 28}
-        ]
 
-        })
-    };
 
     nameChangedHandler = (event) => {
         this.setState({
@@ -76,6 +64,10 @@ class App extends Component {
     };
 
   render() {
+        //Something very important is the fact that when the screen is updated
+        // all code in this render method is updated so we should when needed
+        //take advantage of this and use this fact to update the dynamic data
+        //to conditionally render the data.
         const style = {
             backgroundColor: "white",
             font: "inherit",
@@ -83,35 +75,36 @@ class App extends Component {
             padding: "8px",
             cursor: "pointer"
         };
+        //Here we are setting a variable to null and then because the state has been updated
+        //we are running this if statement to check if the state has changed if it has then
+        // the dynamic content is delivered so showpersons is a boolean and it is changed when
+        //the button is clicked  firing the togglePersonsHandler to show the content. So it is a great
+        //idea to use the rendering to reevaluate if a particular state has been changed to decide if
+        // dynamic content needs to be displayed.
+        let persons = null;
+        if(this.state.showPersons){
+            persons = (
+                <div>
+                    {this.state.persons.map(person =>{
+                        return <Person name = {person.name}
+                        age={person.age}/>
+                    })}
+
+               </div>
+           );
+        }
     // An opening and closing tag can be used with the name of the component inside
     //       or a self closing tag. see <Person/> or <Person><Person>
     //DEALING WITH CONTENT THAT IS IN BETWEEN THE OPENING AND CLOSING TAGS.
 
     //We will be toggeling the
+
     return (
       <div className="App">
        <h1>Hi, I am a React App</h1>
         <p>This is really working!</p>
           <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
-
-          {
-              this.state.showPersons === true ?
-              <div>
-                <Person
-             name = {this.state.persons[0].name}
-             age={this.state.persons[0].age}/>
-        <Person
-            name={this.state.persons[1].name}
-            age={this.state.persons[1].age}
-            changed={ this.nameChangedHandler}
-            click={this.switchNameHandler.bind(this, "Maximilian")}
-        >My Hobbies: Racing</Person>
-         <Person
-             name={this.state.persons[2].name}
-             age={this.state.persons[2].age}/>
-          </div> : null
-          }
-
+        {persons}
       </div>
 
     );
