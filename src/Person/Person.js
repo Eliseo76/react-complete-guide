@@ -5,11 +5,27 @@
 // we need to import react from the react package.  Because we are not creating a component class
 //but only creating a  component function we dont need to import the {component} here.
 import React from 'react';
+import styled from "styled-components";
 //When we are using attributes from the jsx we use the arg conventionally called props it give access
 //to the component these things are like name="Eliseo" in the jsx
-import "./Person.css";
+// import "./Person.css";
 //importing the css for use in the jsx
+
+const StyledDiv = styled.div`
+width: 60%;
+margin: 16px auto;
+border: 1px solid #8e8e8e;
+box-shadow: 0 2px 3px black;
+padding: 16px;
+text-align: center;
+
+@media (min-width: 500px){
+    width: 450px;
+    }
+    `;
 const person = (props) =>{
+
+
 //    ADDING DYNAMIC CONTENT TO THE JSX --------------------------------------
 //    to inject code into the jsx we need to add {} and in it add the code.
 //    without the {} it will render as text. NOTE: We cannot enter big code only one line
@@ -19,17 +35,18 @@ const person = (props) =>{
 //    component it would be this.props
 // WAS:   return <p>I'm {props.name} and I am {Math.floor(Math.random() * 30)} years old!</p>
 //    To use the age attribute we use props.age
-     //DEALING WITH CONTENT THAT IS IN BETWEEN THE OPENING AND CLOSING TAGS.
+    //DEALING WITH CONTENT THAT IS IN BETWEEN THE OPENING AND CLOSING TAGS.
 //We need to add () to the code to make it span over a few lines
 //    Then we need to add a <div> tag to place the <p> tag in and the call for the content needed.
 //Here we are using a reserved word .children , children refers to any elements that are found in
 //    between the open and closing tag. This can be anything even another component.
-return (
-    <div className="Person">
-        <p onClick={props.click} > I'm {props.name} and I am {props.age} years old!</p>
-        <p>{props.children}</p>
-        <input type="text" onChange={props.changed} value={props.name}/>
-    </div>
+    return (
+        // <div className="Person" style={style}>
+        <StyledDiv>
+            <p onClick={props.click} > I'm {props.name} and I am {props.age} years old!</p>
+            <p>{props.children}</p>
+            <input type="text" onChange={props.changed} value={props.name}/>
+        </StyledDiv>
     )
 };
 
